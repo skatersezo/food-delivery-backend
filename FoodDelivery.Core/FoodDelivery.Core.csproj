@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Domain\" />
+    <None Remove="Ports\" />
+    <None Remove="Ports\Repositories\" />
+    <None Remove="Adaptors\" />
+    <None Remove="Adaptors\Db\" />
+    <None Remove="Adaptors\Repositories\" />
+    <None Remove="Ports\Queries\" />
+    <None Remove="Ports\Queries\Handlers\" />
+    <None Remove="ViewModels\" />
+    <None Remove="Ports\Mappers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Domain\" />
+    <Folder Include="Ports\" />
+    <Folder Include="Ports\Repositories\" />
+    <Folder Include="Adaptors\" />
+    <Folder Include="Adaptors\Db\" />
+    <Folder Include="Adaptors\Repositories\" />
+    <Folder Include="Ports\Queries\" />
+    <Folder Include="Ports\Queries\Handlers\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Ports\Mappers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.9" />
+    <PackageReference Include="Paramore.Brighter" Version="9.5.10" />
+    <PackageReference Include="Paramore.Darker" Version="3.0.0" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+  </ItemGroup>
+</Project>
