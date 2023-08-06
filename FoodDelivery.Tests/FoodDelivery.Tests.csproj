@@ -22,11 +22,13 @@
     <None Remove="Core\" />
     <None Remove="Core\Ports\" />
     <None Remove="Core\Ports\QueryHandlers\" />
+    <None Remove="Core\Ports\CommandHandlers\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />
     <Folder Include="Core\Ports\" />
     <Folder Include="Core\Ports\QueryHandlers\" />
+    <Folder Include="Core\Ports\CommandHandlers\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FoodDelivery.Core\FoodDelivery.Core.csproj" />

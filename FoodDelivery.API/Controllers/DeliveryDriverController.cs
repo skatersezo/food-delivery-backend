@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Paramore.Darker;
+using Paramore.Brighter;
 using FoodDelivery.Core.Ports.Queries;
+using FoodDelivery.Core.Ports.Commands;
+using FoodDelivery.Core.ViewModels;
 
 
 namespace FoodDelivery.API.Controllers
@@ -9,10 +12,12 @@ namespace FoodDelivery.API.Controllers
     public class DeliveryDriverController : Controller
     {
         private readonly IQueryProcessor _queryProcessor;
+        private readonly IAmACommandProcessor _commandProcessor;
 
-        public DeliveryDriverController(IQueryProcessor queryProcessor)
+        public DeliveryDriverController(IQueryProcessor queryProcessor, IAmACommandProcessor commandProcessor)
         {
             _queryProcessor = queryProcessor;
+            _commandProcessor = commandProcessor;
         }
 
         
@@ -35,8 +40,12 @@ namespace FoodDelivery.API.Controllers
 
         
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task<IActionResult> Post([FromBody]AddDeliveryDriverRequest request)
         {
+            var command = new AddDeliveryDriverCommand(request.Name);
+            await _commandProcessor.SendAsync(command);
+
+            return Ok();
         }
 
         

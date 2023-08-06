@@ -17,6 +17,8 @@
     <None Remove="Ports\Queries\Handlers\" />
     <None Remove="ViewModels\" />
     <None Remove="Ports\Mappers\" />
+    <None Remove="Ports\Commands\" />
+    <None Remove="Ports\Commands\Handlers\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Domain\" />
@@ -29,6 +31,8 @@
     <Folder Include="Ports\Queries\Handlers\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Ports\Mappers\" />
+    <Folder Include="Ports\Commands\" />
+    <Folder Include="Ports\Commands\Handlers\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.9" />
