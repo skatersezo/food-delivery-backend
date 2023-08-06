@@ -7,6 +7,7 @@
         public IEnumerable<FoodOrderViewModel> Orders { get; } = new List<FoodOrderViewModel>();
         public long Latitude { get; }
         public long Longitude { get; }
+        public string Url { get; set; }
 
         public DeliveryDriverViewModel(int id, string name)
 		{

@@ -28,6 +28,12 @@ namespace FoodDelivery.Core.Adaptors.Repositories
             await _uow.SaveChangesAsync(ct);
         }
 
+        public async Task DeleteAllAsync(CancellationToken ct = default)
+        {
+            _uow.DeliveryDrivers.RemoveRange(await _uow.DeliveryDrivers.ToListAsync(ct));
+            await _uow.SaveChangesAsync(ct);
+        }
+
         public async Task<DeliveryDriver> GetAsync(int deliveryDriverId, CancellationToken ct = default)
         {
             return await _uow.DeliveryDrivers.SingleAsync(i => i.Id == deliveryDriverId);
