@@ -13,39 +13,37 @@ namespace FoodDelivery.API.Controllers
     {
         private readonly IQueryProcessor _queryProcessor;
         private readonly IAmACommandProcessor _commandProcessor;
-        private readonly HttpContext _httpContext;
         private readonly LinkGenerator _linkGenerator;
 
         public DeliveryDriverController(
             IQueryProcessor queryProcessor,
             IAmACommandProcessor commandProcessor,
-            HttpContext httpContext,
             LinkGenerator linkGenerator)
         {
             _queryProcessor = queryProcessor;
             _commandProcessor = commandProcessor;
-            _httpContext = httpContext;
             _linkGenerator = linkGenerator;
         }
 
+
         
         [HttpGet(Name = "GetDrivers")]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetDrivers()
         {
             var result = await _queryProcessor.ExecuteAsync(new AllDeliveryDriversQuery());
 
-            foreach (var driver in result.DeliveryDriversViewModel) driver.Url = _linkGenerator.GetUriByName(_httpContext, "GetDriver", new { driver.Id });
+            foreach (var driver in result.DeliveryDriversViewModel) driver.Url = _linkGenerator.GetUriByName(HttpContext, "GetDriverById", new { driver.Id });
 
             return Ok(result.DeliveryDriversViewModel);
         }
 
         
-        [HttpGet("{id}", Name = "GetDriverByID")]
+        [HttpGet("{id}", Name = "GetDriverById")]
         public async Task<IActionResult> GetById(int id)
         {
             if (await _queryProcessor.ExecuteAsync(new DeliveryDriverByIdQuery(id)) is { } result)
             {
-                result.DeliveryDriverViewModel.Url = _linkGenerator.GetUriByName(_httpContext, "GetDriver", new { result.DeliveryDriverViewModel.Id });
+                result.DeliveryDriverViewModel.Url = _linkGenerator.GetUriByName(HttpContext, "GetDriverById", new { result.DeliveryDriverViewModel.Id });
                 return Ok(result.DeliveryDriverViewModel);
             }
 
@@ -60,21 +58,34 @@ namespace FoodDelivery.API.Controllers
             await _commandProcessor.SendAsync(command);
 
             var result = await _queryProcessor.ExecuteAsync(new DeliveryDriverByIdQuery(command.DeliveryDriverId));
-            result.DeliveryDriverViewModel.Url = _linkGenerator.GetUriByName(_httpContext, "GetDriver", new { command.DeliveryDriverId });
+            var addedDriver = result.DeliveryDriverViewModel;
+            addedDriver.Url = _linkGenerator.GetUriByName(HttpContext, "GetDriverById", new { addedDriver.Id });
 
-            return CreatedAtRoute("GetDriver", new { id = command.DeliveryDriverId }, result.DeliveryDriverViewModel);
+            return CreatedAtRoute("GetDriverById", new { id = addedDriver.Id }, addedDriver);
         }
 
         
-        [HttpDelete("{id}", Name = "DeleteDriver")]
-        public void Put(int id, [FromBody]string value)
+        [HttpDelete("{id}", Name = "DeleteDriverById")]
+        public async Task<IActionResult> DeleteById(int id)
         {
+            await _commandProcessor.SendAsync(new DeleteDeliveryDriverByIdCommand(id));
+
+            return Ok();
         }
 
         
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete(Name = "DeleteAllDrivers")]
+        public async Task<IActionResult> DeleteAll()
         {
+            await _commandProcessor.SendAsync(new DeleteAllDeliveryDriversCommand());
+
+            return Ok();
+        }
+
+        [HttpPatch("{id}", Name = "UpdateDriver")]
+        public async Task<IActionResult> UpdateById(int id, [FromBody])
+        {
+
         }
     }
 }
