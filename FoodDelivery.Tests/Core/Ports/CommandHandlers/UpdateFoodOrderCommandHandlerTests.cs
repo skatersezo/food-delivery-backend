@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using FoodDelivery.Core.Adaptors.Db;
 using FoodDelivery.Core.Domain;
@@ -10,7 +8,7 @@ using FoodDelivery.Core.Ports.Commands;
 
 namespace FoodDelivery.Tests.Core.Ports.CommandHandlers
 {
-	[TestFixture]
+    [TestFixture]
 	public class UpdateFoodOrderCommandHandlerTests
 	{
 

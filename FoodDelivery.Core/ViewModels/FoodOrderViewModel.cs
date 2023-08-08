@@ -1,7 +1,6 @@
-﻿using System;
-namespace FoodDelivery.Core.ViewModels
+﻿namespace FoodDelivery.Core.ViewModels
 {
-	public class FoodOrderViewModel
+    public class FoodOrderViewModel
 	{
         public string FoodName { get; }
         public string CustomerName { get; }

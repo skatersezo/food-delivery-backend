@@ -7,6 +7,9 @@ namespace FoodDelivery.Core.Domain
 		public string CustomerName { get; set; }
 		public bool Delivered { get; set; }
 		public int Id { get; set; }
+
+		public DeliveryDriver Driver { get; set; }
+		public int DriverId { get; set; }
 	}
 }
 

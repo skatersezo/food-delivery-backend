@@ -21,7 +21,15 @@ namespace FoodDelivery.Core.Ports.Commands.Handlers
 			await using (var uow = new FoodDeliveryDbContext(_options))
 			{
 				var repo = new DeliveryDriverRepositoryAsync(uow);
-				var savedDriver = await repo.AddAsync(new DeliveryDriver { Name = command.Name }, cancellationToken);
+				var driver = new DeliveryDriver { Name = command.Name };
+
+				if (command.Orders != null && command.Orders.Any())
+				{
+					foreach (var order in command.Orders)
+						driver.Orders.Add(new FoodOrder { Id = order.Id, FoodName = order.FoodName, CustomerName = order.CustomerName, Delivered = order.Delivered });
+				}
+
+                var savedDriver = await repo.AddAsync(driver, cancellationToken);
 				command.DeliveryDriverId = savedDriver.Id;
 
 			}

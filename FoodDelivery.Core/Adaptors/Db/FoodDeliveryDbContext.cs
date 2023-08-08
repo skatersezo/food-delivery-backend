@@ -28,17 +28,19 @@ namespace FoodDelivery.Core.Adaptors.Db
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-			modelBuilder.Entity<FoodOrder>()
-				.Property(field => field.Id)
-				.ValueGeneratedOnAdd();
-			modelBuilder.Entity<FoodOrder>()
-				.HasKey(field => field.Id);
-			modelBuilder.Entity<DeliveryDriver>()
-				.Property(field => field.Id)
-				.ValueGeneratedOnAdd();
-			modelBuilder.Entity<DeliveryDriver>()
-				.HasKey(field => field.Id);
+            modelBuilder.Entity<FoodOrder>()
+                .Property(field => field.Id)
+                .ValueGeneratedOnAdd();
 
+            modelBuilder.Entity<DeliveryDriver>()
+				.Property(field => field.Id)
+				.ValueGeneratedOnAdd();
+			modelBuilder.Entity<DeliveryDriver>()
+				.HasMany(d => d.Orders)
+				.WithOne(f => f.Driver)
+				.HasForeignKey(f => f.DriverId)
+				.HasPrincipalKey(d => d.Id);
+            
         }
 
     }
