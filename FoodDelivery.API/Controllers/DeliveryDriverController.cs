@@ -83,9 +83,16 @@ namespace FoodDelivery.API.Controllers
         }
 
         [HttpPatch("{id}", Name = "UpdateDriver")]
-        public async Task<IActionResult> UpdateById(int id, [FromBody])
+        public async Task<IActionResult> UpdateById(int id, [FromBody]UpdateDeliveryDriverRequest request)
         {
+            var command = new UpdateDeliveryDriverByIdCommand(id, request.Name, request.Orders, request.Latitude, request.Longitude);
+            await _commandProcessor.SendAsync(command);
 
+            var result = await _queryProcessor.ExecuteAsync(new DeliveryDriverByIdQuery(id));
+            var updatedDriver = result.DeliveryDriverViewModel;
+            updatedDriver.Url = _linkGenerator.GetUriByName(HttpContext, "GetDriverById", new { updatedDriver.Id });
+
+            return Ok(updatedDriver);
         }
     }
 }

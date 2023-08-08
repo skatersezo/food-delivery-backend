@@ -6,7 +6,7 @@ namespace FoodDelivery.Core.Domain
     public class DeliveryDriver : IEntity
     {
         public string Name { get; set; }
-        public List<FoodOrder> Orders = new List<FoodOrder>();
+        public ICollection<FoodOrder> Orders { get; set; } 
         public long Latitude { get; set; }
         public long Longitude { get; set; }
         public int Id { get; set; }

@@ -48,7 +48,9 @@ app.UseCors("AllowAll");
 
 using(var scope = app.Services.CreateScope())
 {
-    scope.ServiceProvider.GetRequiredService<FoodDeliveryDbContext>().Database.EnsureCreated();
+    var dbContext = scope.ServiceProvider.GetRequiredService<FoodDeliveryDbContext>();
+    dbContext.Database.EnsureCreated();
+    DbInitializer.Initialize(dbContext);
 }
 
 app.MapControllers();
